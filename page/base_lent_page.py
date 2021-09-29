@@ -12,40 +12,34 @@ class BaseLentPage:
 
     @property
     def search_input(self):
-        areal_input = self.driver.find_element(By.XPATH, '//input[@class="XTCLo x3qfX"]')
+        areal_input = self.driver.find_element(By.XPATH, '//input[@class="XTCLo x3qfX "]')
         return areal_input
 
     @property
     def go_message(self):
-        go_to_message_btn = self.driver.find_element(By.XPATH, '//a[@class="xWeGp"]')
+        go_to_message_btn = self.driver.find_element(By.XPATH, '//a[@href="/direct/inbox/"]')
         return go_to_message_btn
 
-    @property
-    def profile_mini_btn(self):
-        prof_min_btn = self.driver.find_element(By.XPATH, '//div[@class="XrOey"]/span')
+    def profile_mini_btn(self, uname):
+        prof_min_btn = self.driver.find_element(By.XPATH, f'//img[@alt="Фото профиля {uname}"]')
         return prof_min_btn
 
-    @property
-    def accept_go_to_my_profile(self):
-        accept_btn = self.driver.find_element(By.XPATH, '//div[@class="_01UL2"]/a[@class="-qQT3"]'
-                                                        '/div[@class="            qF0y9          Igw0E'
-                                                        '   rBNOH        eGOV_     ybXk5    _4EzTm      '
-                                                        '                                                 '
-                                                        '                            XfCBB          HVWg4   '
-                                                        '               La5L3 ZUqME"]')
+    def accept_go_to_my_profile(self, uname):
+        accept_btn = self.driver.find_element(By.XPATH, f'//a[@href="/{uname}/"]')
         return accept_btn
 
-    @property
-    def selector_of_found_person(self):
-        selector_pers = self.driver.find_element(By.XPATH, '//div[@class="yPP5B"]/div/div/div')
+    def selector_of_found_person(self, person):
+        selector_pers = self.driver.find_element_by_xpath(f'//a[@href="/{person}/"]')
         return selector_pers
 
-    def go_to_self_profile(self):
-        self.profile_mini_btn.click()
-        self.accept_go_to_my_profile.click()
+    def go_to_self_profile(self, uname):
+        self.profile_mini_btn(uname).click()
+        self.driver.implicitly_wait(2)
+        self.accept_go_to_my_profile(uname).click()
 
     def find_some_person(self, person):
-        self.search_input.click()
+        self.driver.refresh()
+        self.driver.implicitly_wait(5)
         self.search_input.send_keys(person)
-        self.search_input.send_keys("ENTER")
-        self.search_input.send_keys("ENTER")
+        self.driver.implicitly_wait(5)
+        self.selector_of_found_person(person).click()
