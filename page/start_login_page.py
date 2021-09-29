@@ -1,4 +1,5 @@
 import time
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import driver.driver_path as dr
 from selenium.webdriver.common.by import By
@@ -42,7 +43,7 @@ class StartLoginPage:
 
     @property
     def login_error_message(self):
-        mes = self.driver.find_element(By.XPATH, '//p[@id="slfErrorAlert"]')
+        mes = self.driver.find_element_by_xpath('//p[@id="slfErrorAlert"]')
         return mes
 
     def lets_login(self, uname, pas):
@@ -62,10 +63,11 @@ class StartLoginPage:
         self.get_password.send_keys("password222")
         self.get_username.send_keys("username3213")
         self.get_submit_btn.click()
+        time.sleep(3)
+        assert self.func.if_xpath_exists(self.login_error_message)
+        self.driver.implicitly_wait(5)
         self.get_password.send_keys(Keys.CONTROL, 'a')
         self.get_password.send_keys(Keys.DELETE)
         self.get_username.send_keys(Keys.CONTROL, 'a')
         self.get_username.send_keys(Keys.DELETE)
-        self.get_password.send_keys(pas)
-        self.get_username.send_keys(uname)
-        self.get_submit_btn.click()
+

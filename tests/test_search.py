@@ -1,5 +1,3 @@
-import time
-
 from pers_data import pas, uname, person
 from instagram_basic import Instagram as Inst
 import pytest
