@@ -20,6 +20,11 @@ class BaseLentPage:
         go_to_message_btn = self.driver.find_element(By.XPATH, '//a[@href="/direct/inbox/"]')
         return go_to_message_btn
 
+    @property
+    def exit_btn(self):
+        btn = self.driver.find_element_by_xpath('//div[text()="Выйти"]')
+        return btn
+
     def profile_mini_btn(self, uname):
         prof_min_btn = self.driver.find_element(By.XPATH, f'//img[@alt="Фото профиля {uname}"]')
         return prof_min_btn
@@ -43,3 +48,5 @@ class BaseLentPage:
         self.search_input.send_keys(person)
         self.driver.implicitly_wait(5)
         self.selector_of_found_person(person).click()
+
+
